@@ -12,12 +12,11 @@ import MessageUI
 class Task: NSObject {
     var date: String = ""
     var name: String = ""
-    var startTime: String = ""
-    var endTime: String = ""
 }
 
 class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
 
+    @IBOutlet weak var fio: UITextField!
     var taskArr = [Task]()
     var task: Task!
     
@@ -28,13 +27,9 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     
     @IBAction func createReport(_ sender: UIButton) {
         task = Task()
-        for _ in 0..<5 {
-            task.name = "Raj"
-            task.date = "\(Date())"
-            task.startTime = "Start \(Date())"
-            task.endTime = "End \(Date())"
-            taskArr.append(task!)
-        }
+        task.name = fio.text ?? ""
+        task.date = "\(Date())"
+        taskArr.append(task!)
         creatCSV()
     }
     
@@ -42,10 +37,10 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     func creatCSV() -> Void {
         let fileName = "Report.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        var csvText = "Date,Task Name,Time Started,Time Ended\n"
+        var csvText = "Дата,ФИО\n"
         
         for task in taskArr {
-            let newLine = "\(task.date),\(task.name),\(task.startTime),\(task.endTime)\n"
+            let newLine = "\(task.date),\(task.name)\n"
             csvText.append(newLine)
         }
         
